@@ -5,7 +5,8 @@ export const onCreateNote = /* GraphQL */ `
   subscription OnCreateNote {
     onCreateNote {
       id
-      note
+      text
+      author
     }
   }
 `;
@@ -13,7 +14,8 @@ export const onUpdateNote = /* GraphQL */ `
   subscription OnUpdateNote {
     onUpdateNote {
       id
-      note
+      text
+      author
     }
   }
 `;
@@ -21,7 +23,8 @@ export const onDeleteNote = /* GraphQL */ `
   subscription OnDeleteNote {
     onDeleteNote {
       id
-      note
+      text
+      author
     }
   }
 `;

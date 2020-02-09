@@ -5,7 +5,8 @@ export const getNote = /* GraphQL */ `
   query GetNote($id: ID!) {
     getNote(id: $id) {
       id
-      note
+      text
+      author
     }
   }
 `;
@@ -18,7 +19,8 @@ export const listNotes = /* GraphQL */ `
     listNotes(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        note
+        text
+        author
       }
       nextToken
     }
