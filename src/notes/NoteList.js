@@ -3,8 +3,6 @@ import React from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 
 import Container from 'react-bootstrap/Container';
-//import Accordion from 'react-bootstrap/Accordion';
-//import Card from 'react-bootstrap/Card';
 import Note from './Note'
 
 import { listNotes } from '../graphql/queries';
@@ -49,7 +47,9 @@ class NoteList extends React.Component {
         const updatedNote = noteData.value.data.onUpdateNote;
         const position = this.state.notes.findIndex((note) => note.id === updatedNote.id);
         if( position >= 0) {
-          const newNotes = [...this.state.notes.slice(0,position), updatedNote, ...this.state.notes.slice(position+1)];
+          const newNotes = [...this.state.notes.slice(0,position), ...this.state.notes.slice(position+1), updatedNote];
+          // TODO: Check what to do to make setState to notice there is something different
+          this.setState({ notes: [] });
           this.setState({ notes: newNotes });
         }
       }
@@ -92,17 +92,3 @@ class NoteList extends React.Component {
 }
 
 export default NoteList;
-
-/* 
-<Accordion>
-<Card>
-  <Accordion.Toggle as={Card.Header} eventKey="0" onClick={this.handleAccordionClick}>
-    { this.state.title }
-  </Accordion.Toggle>
-  <Accordion.Collapse eventKey="0">
-    <Card.Body>
-        
-    </Card.Body>
-  </Accordion.Collapse>
-</Card>
-</Accordion> */
