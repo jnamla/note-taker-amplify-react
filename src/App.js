@@ -10,7 +10,7 @@ import { API, graphqlOperation } from 'aws-amplify';
 import awsconfig from './aws-exports';
 import { withAuthenticator } from 'aws-amplify-react';
 
-import { createNote } from './graphql/mutations'
+import { createNote, updateNote } from './graphql/mutations'
 
 import NoteList from './notes/NoteList';
 
@@ -28,26 +28,32 @@ class App extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.prepareNoteForEdition = this.prepareNoteForEdition.bind(this);
   }
 
   handleChange(event) {
     this.setState({ text: event.target.value });
-    console.log("new state " + this.state)
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    const { text, author } = this.state;
-    const input = { text, author };
-    API.graphql(graphqlOperation(createNote, { input }));
+    const { text, author, id } = this.state;
+    let input = {};
+
+    //If there is an id then the user is editing a note
+    if(id) {
+      input = { text, author, id };
+      API.graphql(graphqlOperation(updateNote, { input }));
+    } else {
+      input = { text, author };
+      API.graphql(graphqlOperation(createNote, { input }));
+    }
+    
+    this.setState({text: "", id: undefined});
   }
 
-  componentDidMount() {
-
-  }
-
-  componentWillUnmount() {
-
+  prepareNoteForEdition(note) {
+    this.setState({...note});
   }
 
   render() {
@@ -72,7 +78,7 @@ class App extends React.Component {
           </Jumbotron>
 
           <Jumbotron>
-            <NoteList author={this.state.author}></NoteList>
+            <NoteList prepareNoteForEdition={this.prepareNoteForEdition} author={this.state.author}></NoteList>
           </Jumbotron>
 
       </Container>
