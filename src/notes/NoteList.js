@@ -47,7 +47,7 @@ class NoteList extends React.Component {
         const updatedNote = noteData.value.data.onUpdateNote;
         const position = this.state.notes.findIndex((note) => note.id === updatedNote.id);
         if( position >= 0) {
-          const newNotes = [...this.state.notes.slice(0,position), ...this.state.notes.slice(position+1), updatedNote];
+          const newNotes = [...this.state.notes.slice(0,position), updatedNote, ...this.state.notes.slice(position+1)];
           // TODO: Check what to do to make setState to notice there is something different
           this.setState({ notes: [] });
           this.setState({ notes: newNotes });
@@ -82,10 +82,11 @@ class NoteList extends React.Component {
 
   render() {
     return (
-      <Container className="p-1">
-        {(this.state.notes.map((theNote, index) => (
+      <Container className="p-0">
+        {
+        this.state.notes.map((theNote, index) => (
             <Note key={index} note={theNote} triggerChildNoteEdition={this.triggerChildNoteEdition} />
-          )))}
+        ))}
       </Container>
     );
   }

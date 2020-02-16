@@ -9,7 +9,6 @@ export const createNote = /* GraphQL */ `
     createNote(input: $input, condition: $condition) {
       id
       text
-      author
     }
   }
 `;
@@ -21,7 +20,6 @@ export const updateNote = /* GraphQL */ `
     updateNote(input: $input, condition: $condition) {
       id
       text
-      author
     }
   }
 `;
@@ -33,7 +31,6 @@ export const deleteNote = /* GraphQL */ `
     deleteNote(input: $input, condition: $condition) {
       id
       text
-      author
     }
   }
 `;

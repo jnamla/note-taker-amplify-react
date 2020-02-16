@@ -32,8 +32,8 @@ class Note extends React.Component {
 
   render() {
     return (
-      <Container key={this.state.note.id}>
-      <Row className="p-1 m-2 border border-white rounded">
+      <Container className="p-0" key={this.state.note.id}>
+      <Row className="p-3 m-3 border border-white rounded">
         <Col>
           {this.state.note.text}
         </Col>

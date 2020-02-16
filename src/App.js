@@ -77,7 +77,7 @@ class App extends React.Component {
             
           </Jumbotron>
 
-          <Jumbotron>
+          <Jumbotron className="p-3" >
             <NoteList prepareNoteForEdition={this.prepareNoteForEdition} author={this.state.author}></NoteList>
           </Jumbotron>
 
