@@ -8,13 +8,14 @@ import Note from './Note'
 import { listNotes } from '../graphql/queries';
 import { onCreateNote, onUpdateNote, onDeleteNote } from '../graphql/subscriptions';
 
+import { Auth } from 'aws-amplify';
+
 class NoteList extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       title: "View notes...",
-      author: this.props.author,
       notes: []
     };
 
@@ -24,16 +25,19 @@ class NoteList extends React.Component {
 
   componentDidMount() {
     this.getNotes();
-    this.createSubscriptions();
+
+    Auth.currentSession()
+    .then(data => this.createSubscriptions(data.getIdToken().payload.sub))
+    .catch(err => console.log(err));
   }
 
   componentWillUnmount() {
     this.cancelSubscriptions();
   }
 
-  createSubscriptions() {
+  createSubscriptions( currentUser ) {
 
-    this.createNoteSubs = API.graphql(graphqlOperation(onCreateNote)).subscribe({
+    this.createNoteSubs = API.graphql(graphqlOperation(onCreateNote, { owner: currentUser })).subscribe({
       next: noteData => {
         const newNote = noteData.value.data.onCreateNote;
         const prevNotes = this.state.notes;
@@ -42,7 +46,7 @@ class NoteList extends React.Component {
       }
     });
     
-    this.updateNoteSubs = API.graphql(graphqlOperation(onUpdateNote)).subscribe({
+    this.updateNoteSubs = API.graphql(graphqlOperation(onUpdateNote, { owner: currentUser })).subscribe({
       next: noteData => {
         const updatedNote = noteData.value.data.onUpdateNote;
         const position = this.state.notes.findIndex((note) => note.id === updatedNote.id);
@@ -55,7 +59,7 @@ class NoteList extends React.Component {
       }
     });
 
-    this.deleteNoteSubs = API.graphql(graphqlOperation(onDeleteNote)).subscribe({
+    this.deleteNoteSubs = API.graphql(graphqlOperation(onDeleteNote, { owner: currentUser })).subscribe({
       next: noteData => {
         const deletedNote = noteData.value.data.onDeleteNote;
         const newNotes = this.state.notes.filter((note) => note.id === deletedNote.id );
@@ -84,9 +88,10 @@ class NoteList extends React.Component {
     return (
       <Container className="p-0">
         {
-        this.state.notes.map((theNote, index) => (
-            <Note key={index} note={theNote} triggerChildNoteEdition={this.triggerChildNoteEdition} />
-        ))}
+          this.state.notes.map((theNote, index) => (
+              <Note key={index} note={theNote} triggerChildNoteEdition={this.triggerChildNoteEdition} />
+          ))
+        }
       </Container>
     );
   }

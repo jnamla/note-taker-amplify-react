@@ -9,8 +9,6 @@ import { API, graphqlOperation } from 'aws-amplify';
 
 import { deleteNote } from '../graphql/mutations';
 
-//import './Note.css'
-
 class Note extends React.Component {
 
   constructor(props) {

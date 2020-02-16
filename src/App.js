@@ -21,9 +21,8 @@ Amplify.configure(awsconfig);
 class App extends React.Component {
 
   constructor(props) {
-    super(props);//TODO: where to get the logged in id from?
-    this.state = { 
-      author: "990df005-8116-4e82-b8d8-8dface9b34e0",
+    super(props);
+    this.state = {
       text: ""
     };
     this.handleChange = this.handleChange.bind(this);
@@ -37,15 +36,15 @@ class App extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { text, author, id } = this.state;
+    const { text, id } = this.state;
     let input = {};
 
     //If there is an id then the user is editing a note
     if(id) {
-      input = { text, author, id };
+      input = { text, id };
       API.graphql(graphqlOperation(updateNote, { input }));
     } else {
-      input = { text, author };
+      input = { text };
       API.graphql(graphqlOperation(createNote, { input }));
     }
     
@@ -78,7 +77,7 @@ class App extends React.Component {
           </Jumbotron>
 
           <Jumbotron className="p-3" >
-            <NoteList prepareNoteForEdition={this.prepareNoteForEdition} author={this.state.author}></NoteList>
+            <NoteList prepareNoteForEdition={this.prepareNoteForEdition}></NoteList>
           </Jumbotron>
 
       </Container>
