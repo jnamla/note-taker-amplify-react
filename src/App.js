@@ -28,6 +28,7 @@ class App extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.prepareNoteForEdition = this.prepareNoteForEdition.bind(this);
+    this.resetNote = this.resetNote.bind(this);
   }
 
   handleChange(event) {
@@ -48,11 +49,17 @@ class App extends React.Component {
       API.graphql(graphqlOperation(createNote, { input }));
     }
     
-    this.setState({text: "", id: undefined});
+    this.resetNote();
   }
 
   prepareNoteForEdition(note) {
     this.setState({...note});
+  }
+
+  resetNote(id) {
+    if(!id || this.state.id === id) {
+      this.setState({text: "", id: undefined});
+    }
   }
 
   render() {
@@ -77,7 +84,7 @@ class App extends React.Component {
           </Jumbotron>
 
           <Jumbotron className="p-3" >
-            <NoteList prepareNoteForEdition={this.prepareNoteForEdition}></NoteList>
+            <NoteList prepareNoteForEdition={this.prepareNoteForEdition} resetNote={this.resetNote}></NoteList>
           </Jumbotron>
 
       </Container>
