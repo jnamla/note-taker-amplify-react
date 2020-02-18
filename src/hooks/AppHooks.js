@@ -4,6 +4,7 @@ import Jumbotron from 'react-bootstrap/Jumbotron';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 
 import Amplify from 'aws-amplify';
 import { API, graphqlOperation, Auth } from 'aws-amplify';
@@ -78,12 +79,15 @@ function App () {
                 Keep record of what is important.
               </Form.Text>
             </Form.Group>
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
-            <Button variant="secondary" onClick={clear}>
-              Cancel
-            </Button>
+
+            <ButtonToolbar className="justify-content-between">
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+              <Button variant="secondary" onClick={clear}>
+                Clear
+              </Button>
+            </ButtonToolbar>
           </Form>
           
         </Jumbotron>
