@@ -1,0 +1,19 @@
+.icons-group {
+  min-height: 3em;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+
+.selectable {
+  border: 1em;
+  border-radius: 4px;
+  background-color: #e9ecef;
+}
+
+.selectable:hover, .selectable:focus {
+  background-color: darkgray;
+  width: 3em;
+  height: 3em;
+  border: 0;
+}

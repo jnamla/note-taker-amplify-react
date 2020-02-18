@@ -62,11 +62,11 @@ class NoteList extends React.Component {
     this.deleteNoteSubs = API.graphql(graphqlOperation(onDeleteNote, { owner: currentUser })).subscribe({
       next: noteData => {
         const deletedNote = noteData.value.data.onDeleteNote;
-        const newNotes = this.state.notes.filter((note) => note.id === deletedNote.id );
+        const newNotes = this.state.notes.filter((note) => note.id !== deletedNote.id );
+        this.props.resetNote(deletedNote.id);
         this.setState({ notes: newNotes });
       }
     });
-
   }
 
   cancelSubscriptions() {
